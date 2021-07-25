@@ -74,65 +74,6 @@ Version      : 3.5
 
 ========================================*/
 
-@font-face {
-	font-family: 'Material Icons';
-	font-style: normal;
-	font-weight: 400;
-	src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
-	src: local('Material Icons'),
-	local('MaterialIcons-Regular'),
-	url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
-	url(../fonts/MaterialIcons-Regular.woff) format('woff'),
-	url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Circular Std Book'), url('../fonts/CircularStd-Book.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: italic;
-	font-weight: 400;
-	src: local('Circular Std Book Italic'), url('../fonts/CircularStd-BookItalic.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: normal;
-	font-weight: 500;
-	src: local('Circular Std Medium'), url('../fonts/CircularStd-Medium.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: italic;
-	font-weight: 500;
-	src: local('Circular Std Medium Italic'), url('../fonts/CircularStd-MediumItalic.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: normal;
-	font-weight: 600;
-	src: local('Circular Std Bold'), url('../fonts/CircularStd-Bold.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: italic;
-	font-weight: 600;
-	src: local('Circular Std Bold Italic'), url('../fonts/CircularStd-BoldItalic.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: normal;
-	font-weight: 800;
-	src: local('Circular Std Black'), url('../fonts/CircularStd-Black.woff') format('woff');
-}
-@font-face {
-	font-family: 'CircularStd';
-	font-style: italic;
-	font-weight: 800;
-	src: local('Circular Std Black Italic'), url('../fonts/CircularStd-BlackItalic.woff') format('woff');
-}
 
 /*-----------------
 	1. General
@@ -142,7 +83,7 @@ html {
 	height: 100%;
 }
 body {
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Sarabun', sans-serif;
 	font-size: .9375rem;
 	color: #1f1f1f;
 	background-color: #f7f7f7;
@@ -155,7 +96,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: CircularStd;
+	font-family: Sarabun;
 	margin-top: 0;
 	font-weight: 500;
 }
@@ -3102,12 +3043,12 @@ table.dataTable thead > tr > td.sorting {
 .fc-toolbar h2 {
 	font-size: 18px;
 	font-weight: 600;
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Sarabun', sans-serif;
 	line-height: 30px;
 	text-transform: uppercase;
 }
 .fc-day-grid-event .fc-time {
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Sarabun', sans-serif;
 }
 .fc-day {
 	background: #fff;
@@ -3230,12 +3171,12 @@ table.dataTable thead > tr > td.sorting {
 .fc-basic-view td.fc-week-number span {
 	padding-right: 8px;
 	font-weight: 700;
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Sarabun', sans-serif;
 }
 .fc-basic-view td.fc-day-number {
 	padding-right: 8px;
 	font-weight: 700;
-	font-family: 'CircularStd', sans-serif;
+	font-family: 'Sarabun', sans-serif;
 }
 .event-form .input-group .form-control {
 	height: 40px;
