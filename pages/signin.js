@@ -1,13 +1,29 @@
-import React from 'react'
+import { useState } from 'react'
 import Head from "next/head"
 
-function Signin() {
+const Signin = () => {
+
+    const [modelLogin, setModelLogin] = useState({
+        username: "",
+        password: "",
+    })
+
+    const login = () => {
+        const { username, password } = modelLogin
+        console.log('username :>> ', username);
+        console.log('password :>> ', password);
+        setModelLogin({
+            username: "",
+            password: "",
+        })
+    }
+
     return (
         <>
             <Head>
                 <title>เข้าสู่ระบบ</title>
             </Head>
-            
+
             <div className="account-page pt-5">
                 <div className="main-wrapper">
                     <div className="account-content">
@@ -20,13 +36,13 @@ function Signin() {
                             {/* /Account Logo */}
                             <div className="account-box">
                                 <div className="account-wrapper">
-                                    <h3 className="account-title">Login</h3>
-                                    <p className="account-subtitle">Access to our dashboard</p>
+                                    <h3 className="account-title">เข้าสู่ระบบ</h3>
+                                    <p className="account-subtitle">ระบบหลังบ้าน บริษัท เดอะ เบสท์ บัดดี้ 19 จำกัด</p>
                                     {/* Account Form */}
-                                    <form action="index.html">
+                                    <form onSubmit={login}>
                                         <div className="form-group">
-                                            <label>Email Address</label>
-                                            <input className="form-control" type="text" />
+                                            <label>Username</label>
+                                            <input className="form-control" type="text" value={modelLogin.username || ""} onChange={(e) => setModelLogin({ ...modelLogin, username: e.target.value })} />
                                         </div>
                                         <div className="form-group">
                                             <div className="row">
@@ -34,18 +50,18 @@ function Signin() {
                                                     <label>Password</label>
                                                 </div>
                                                 <div className="col-auto">
-                                                    <a className="text-muted" href="forgot-password.html">
+                                                    {/* <a className="text-muted" href="forgot-password.html">
                                                         Forgot password?
-                                                    </a>
+                                                    </a> */}
                                                 </div>
                                             </div>
-                                            <input className="form-control" type="password" />
+                                            <input className="form-control" type="password" value={modelLogin.password || ""} onChange={(e) => setModelLogin({ ...modelLogin, password: e.target.value })} />
                                         </div>
                                         <div className="form-group text-center">
-                                            <button className="btn btn-primary account-btn" type="submit">Login</button>
+                                            <button className="btn btn-primary account-btn" type="submit" onClick={login} disabled={!(modelLogin.username || modelLogin.password)}>เข้าสู่ระบบ</button>
                                         </div>
                                         <div className="account-footer">
-                                            <p>Don't have an account yet? <a href="register.html">Register</a></p>
+                                            {/* <p>Don't have an account yet? <a href="register.html">Register</a></p> */}
                                         </div>
                                     </form>
                                     {/* /Account Form */}
