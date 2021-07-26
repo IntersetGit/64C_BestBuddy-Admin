@@ -24,8 +24,7 @@ function Layout({ children }) {
         setTimeout(() => setLoader(false), 1000);
     }, [])
 
-    return loader ? <Preloader /> : (
-
+    return (
         <ConfigProvider locale={locale}>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -36,7 +35,7 @@ function Layout({ children }) {
 
                 <div className="page-wrapper">
                     <div className="content container-fluid">
-                        {children}
+                        {loader ? <Preloader /> : children}
                     </div>
                 </div>
 

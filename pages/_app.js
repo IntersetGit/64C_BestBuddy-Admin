@@ -1,11 +1,12 @@
 import { wrapper } from '../redux/store'
-import 'antd/dist/antd.css';
 import { useDispatch } from 'react-redux';
-import '../public/assets/css/style.css';
-import '../public/assets/scss/main.scss'
 import { setToken } from '../redux/actions/userActions'
 import { useEffect, useRef } from 'react';
 import { Cookies } from 'react-cookie'
+
+import 'antd/dist/antd.css';
+import '../public/assets/css/style.css';
+import '../public/assets/scss/main.scss'
 
 
 function MyApp({ Component, pageProps }) {
