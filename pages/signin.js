@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Head from "next/head"
+import { message } from 'antd';
+import Api from '../util/Api';
 
 const Signin = () => {
 
@@ -8,14 +10,14 @@ const Signin = () => {
         password: "",
     })
 
-    const login = () => {
-        const { username, password } = modelLogin
-        console.log('username :>> ', username);
-        console.log('password :>> ', password);
-        setModelLogin({
-            username: "",
-            password: "",
-        })
+    const login = async () => {
+        try {
+            const { data } = await Api.post("/auth/login", modelLogin)
+            console.log('data :>> ', data.items);
+           
+        } catch (error) {
+            message.warning("ไม่สามารถเข้าสู่ระบบได้")
+        }
     }
 
     return (
@@ -39,7 +41,7 @@ const Signin = () => {
                                     <h3 className="account-title">เข้าสู่ระบบ</h3>
                                     <p className="account-subtitle">ระบบหลังบ้าน บริษัท เดอะ เบสท์ บัดดี้ 19 จำกัด</p>
                                     {/* Account Form */}
-                                    <form onSubmit={login}>
+                                    <form>
                                         <div className="form-group">
                                             <label>Username</label>
                                             <input className="form-control" type="text" value={modelLogin.username || ""} onChange={(e) => setModelLogin({ ...modelLogin, username: e.target.value })} />
@@ -58,7 +60,7 @@ const Signin = () => {
                                             <input className="form-control" type="password" value={modelLogin.password || ""} onChange={(e) => setModelLogin({ ...modelLogin, password: e.target.value })} />
                                         </div>
                                         <div className="form-group text-center">
-                                            <button className="btn btn-primary account-btn" type="submit" onClick={login} disabled={!(modelLogin.username || modelLogin.password)}>เข้าสู่ระบบ</button>
+                                            <button className="btn btn-primary account-btn" type="button" onClick={login} disabled={!(modelLogin.username && modelLogin.password)}>เข้าสู่ระบบ</button>
                                         </div>
                                         <div className="account-footer">
                                             {/* <p>Don't have an account yet? <a href="register.html">Register</a></p> */}

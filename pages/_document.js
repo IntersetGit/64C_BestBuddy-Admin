@@ -8,7 +8,6 @@ export default class MyDocument extends Document {
         <Head>
           <link rel="shortcut icon" href="/images/logo.png" />
           <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-          <link rel="stylesheet" href="/assets/css/style.css" />
           <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
           <link rel="stylesheet" href="/assets/css/line-awesome.min.css" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
