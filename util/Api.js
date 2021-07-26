@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie'
 const cookies = new Cookies();
+import jwt_decode from "jwt-decode";
 
 export default axios.create({
     baseURL: process.env.NEXT_PUBLIC_SERVICE,
@@ -11,9 +12,6 @@ export default axios.create({
         // Do whatever you want to transform the data
         const token = cookies.get('token');
         const refresh_token = cookies.get('refresh_token');
-
-        console.log('token :>> ', token);
-        console.log('refresh_token :>> ', refresh_token);
 
         if (token) {
             const token_decode = jwt_decode(token);
@@ -34,9 +32,8 @@ const RefreshToken = async (refreshtokenval) => {
         const token = data.items
         return token;
     } catch (error) {
-        /*  */
         cookie.remove("token", { path: '/' });
         cookie.remove("refresh_token", { path: '/' });
-        window.location.href = "/";
+        window.location.href = "/signin";
     }
 }

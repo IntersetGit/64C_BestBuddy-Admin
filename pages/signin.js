@@ -2,9 +2,11 @@ import { useState } from 'react'
 import Head from "next/head"
 import { message } from 'antd';
 import Api from '../util/Api';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/actions/userActions';
 
 const Signin = () => {
-
+    const dispatch = useDispatch();
     const [modelLogin, setModelLogin] = useState({
         username: "",
         password: "",
@@ -14,7 +16,8 @@ const Signin = () => {
         try {
             const { data } = await Api.post("/auth/login", modelLogin)
             console.log('data :>> ', data.items);
-           
+            const { token, refreshToken } = data.items
+            dispatch(setToken(token , refreshToken))
         } catch (error) {
             message.warning("ไม่สามารถเข้าสู่ระบบได้")
         }
