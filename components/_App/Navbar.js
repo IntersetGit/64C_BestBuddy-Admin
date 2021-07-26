@@ -1,6 +1,18 @@
 import React from 'react'
+import { useRouter } from 'next/dist/client/router';
+import { Cookies } from 'react-cookie'
 
-function Navbar() {
+const Navbar = () => {
+
+    const route = useRouter()
+    const cookies = new Cookies();
+
+    const logout = () => {
+        cookies.remove("token");
+        cookies.remove("refresh_token");
+        route.push("/signin")
+    }
+
     return (
         <div className="header">
             {/* Logo */}
@@ -28,7 +40,7 @@ function Navbar() {
                         <span>การัณย์ กะลันตะบุตร์</span>
                     </a>
                     <div className="dropdown-menu">
-                        <a className="dropdown-item" href="login.html">ออกการระบบ</a>
+                        <a className="dropdown-item" onClick={logout}>ออกการระบบ</a>
                     </div>
                 </li>
             </ul>
@@ -37,7 +49,7 @@ function Navbar() {
             <div className="dropdown mobile-user-menu">
                 <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i className="fa fa-ellipsis-v" /></a>
                 <div className="dropdown-menu dropdown-menu-right">
-                    <a className="dropdown-item" href="login.html">ออกการระบบ</a>
+                    <a className="dropdown-item" onClick={logout}>ออกการระบบ</a>
                 </div>
             </div>
             {/* /Mobile Menu */}
