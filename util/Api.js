@@ -37,7 +37,8 @@ const RefreshToken = async (refreshtokenval) => {
         if (refreshtokenval) {
             const { data } = await axios.post(process.env.NEXT_PUBLIC_SERVICE + '/auth/refreshToken', { token: refreshtokenval })
             const token = data.items
-            cookies.set('token', token);
+            cookies.set('token', token, { path: '/' });
+            location.reload();
         } else {
             logout()
         }

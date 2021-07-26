@@ -16,8 +16,8 @@ export const setAuthUser = (user) => {
 export const setToken = (token, refreshToken) => {
     return dispatch => {
         const cookies = new Cookies();
-        cookies.set('token', token);
-        if (refreshToken) cookies.set('refresh_token', refreshToken);
+        cookies.set('token', token, { path: '/' });
+        if (refreshToken) cookies.set('refresh_token', refreshToken, { path: '/' });
         const dataUser = jwt_decode(token);
         dispatch(setAuthUser(dataUser));
         dispatch({

@@ -1,15 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Head from "next/head"
 import { message } from 'antd';
 import Api from '../util/Api';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/actions/userActions';
+import { useRouter } from 'next/dist/client/router';
+import { Cookies } from 'react-cookie'
 
 const Signin = () => {
     const dispatch = useDispatch();
+    const route = useRouter()
     const [modelLogin, setModelLogin] = useState({
         username: "",
         password: "",
+    })
+    const isComponentMounted = useRef(true)
+    
+    useEffect(() => {
+        if (isComponentMounted.current) {
+            (() => {
+                const cookies = new Cookies();
+                const token = cookies.get('token');
+                if (token) route.push("/")
+            })();
+        }
+
+        return () => {
+            isComponentMounted.current = false
+        }
     })
 
     const login = async () => {
@@ -17,7 +35,8 @@ const Signin = () => {
             const { data } = await Api.post("/auth/login", modelLogin)
             console.log('data :>> ', data.items);
             const { token, refreshToken } = data.items
-            dispatch(setToken(token , refreshToken))
+            dispatch(setToken(token, refreshToken))
+            route.push("/")
         } catch (error) {
             message.warning("ไม่สามารถเข้าสู่ระบบได้")
         }
