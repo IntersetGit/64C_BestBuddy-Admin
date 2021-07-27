@@ -29,8 +29,9 @@ export const setToken = (token, refreshToken) => {
 
 export const delToken = () => {
     return dispatch => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        const cookies = new Cookies();
+        cookies.remove("token");
+        cookies.remove("refresh_token");
         dispatch({
             type: "SET_AUTH_USER_DATA",
             payload: null,

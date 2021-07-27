@@ -1,27 +1,27 @@
-import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { delToken } from '../../redux/actions/userActions'
 import { useRouter } from 'next/dist/client/router';
-import { Cookies } from 'react-cookie'
 
 const Navbar = () => {
-
+    const { user } = useSelector(({ user }) => user);
+    const dispatch = useDispatch();
     const route = useRouter()
-    const cookies = new Cookies();
 
     const logout = () => {
-        cookies.remove("token");
-        cookies.remove("refresh_token");
+        dispatch(delToken())
         route.push("/signin")
     }
 
     return (
+
         <div className="header">
-            {/* Logo */}
+
             <div className="header-left">
                 <a href="index.html" className="logo">
-                    <img src="/assets/img/logo-main.png" width={70} alt />
+                    <img src="/assets/img/logo-main.png" width={70} />
                 </a>
             </div>
-            {/* /Logo */}
+
             <a id="toggle_btn" href="javascript:void(0);">
                 <span className="bar-icon">
                     <span />
@@ -30,29 +30,30 @@ const Navbar = () => {
                 </span>
             </a>
 
+            <div className="page-title-box">
+                <h3>ระบบหลังบ้าน บริษัท เดอะ เบสท์ บัดดี้ 19 จำกัด</h3>
+            </div>
 
-            {/* Header Menu */}
+            <a id="mobile_btn" className="mobile_btn" href="#sidebar"><i className="fa fa-bars" /></a>
+
             <ul className="nav user-menu">
-
-
                 <li className="nav-item dropdown has-arrow main-drop">
                     <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <span>การัณย์ กะลันตะบุตร์</span>
+                        <span><i className="la la-user" /> {user ? `${user.username}` : "-"}</span>
                     </a>
                     <div className="dropdown-menu">
                         <a className="dropdown-item" onClick={logout}>ออกการระบบ</a>
                     </div>
                 </li>
             </ul>
-            {/* /Header Menu */}
-            {/* Mobile Menu */}
+
             <div className="dropdown mobile-user-menu">
                 <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i className="fa fa-ellipsis-v" /></a>
                 <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" onClick={logout}>ออกการระบบ</a>
                 </div>
             </div>
-            {/* /Mobile Menu */}
+
         </div>
     )
 }

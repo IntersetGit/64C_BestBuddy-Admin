@@ -11,7 +11,7 @@ function Sidebar() {
                             <span>ประกันออนไลน์</span>
                         </li>
 
-                        <li class="active">
+                        <li className="active">
                             <Link href={`/`} >
                                 <a><i className="la la-dashboard" /> <span>Dashboard</span></a>
                             </Link>
