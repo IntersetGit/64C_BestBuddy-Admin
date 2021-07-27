@@ -18,7 +18,7 @@ function Sidebar() {
                         </li>
 
                         <li className="submenu">
-                            <a><i className="la la-cube" /> <span> ข้อมูลประกันภัย Cigna</span> <span className="menu-arrow" /></a>
+                            <a><i className="la la-cube" /> <span> ข้อมูลประกันภัย</span> <span className="menu-arrow" /></a>
                             <ul style={{ display: 'none' }}>
                                 <li>
                                     <Link href={`/`} >
@@ -38,7 +38,7 @@ function Sidebar() {
                         </li>
 
                         <li>
-                            <Link href={`/`} >
+                            <Link href={`/system/usersSystem`} >
                                 <a><i className="la la-user" /> <span>จัดการผู้ใช้ระบบ</span></a>
                             </Link>
                         </li>
