@@ -49,12 +49,6 @@ function Sidebar() {
 
                         <li>
                             <Link href={`/`} >
-                                <a><i className="la la-users" /> <span>จัดการกลุ่มผู้ใช้</span></a>
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link href={`/`} >
                                 <a><i className="la la-cog" /> <span>จัดการประเภทประกันภัย</span></a>
                             </Link>
                         </li>
