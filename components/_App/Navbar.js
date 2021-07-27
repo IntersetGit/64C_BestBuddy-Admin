@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { delToken } from '../../redux/actions/userActions'
 import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 
 const Navbar = () => {
     const { user } = useSelector(({ user }) => user);
@@ -17,9 +18,11 @@ const Navbar = () => {
         <div className="header">
 
             <div className="header-left">
-                <a href="index.html" className="logo">
-                    <img src="/assets/img/logo-main.png" width={70} />
-                </a>
+                <Link href={`/`} >
+                    <a className="logo">
+                        <img src="/assets/img/logo-main.png" width={70} />
+                    </a>
+                </Link>
             </div>
 
             <a id="toggle_btn" href="javascript:void(0);">
