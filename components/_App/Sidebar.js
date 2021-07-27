@@ -1,7 +1,11 @@
 import React from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 
 function Sidebar() {
+    const { asPath } = useRouter()
+    const activeHref = (path) => asPath.toUpperCase() === path.toUpperCase() ? "active" : "";
+
     return (
         <div className="sidebar" id="sidebar">
             <div className="sidebar-inner slimscroll">
@@ -11,7 +15,7 @@ function Sidebar() {
                             <span>ประกันออนไลน์</span>
                         </li>
 
-                        <li className="active">
+                        <li className={activeHref(`/`)}>
                             <Link href={`/`} >
                                 <a><i className="la la-dashboard" /> <span>Dashboard</span></a>
                             </Link>
@@ -22,12 +26,12 @@ function Sidebar() {
                             <ul style={{ display: 'none' }}>
                                 <li>
                                     <Link href={`/`} >
-                                        <a>รายการประกันภัย</a>
+                                        <a className={""}>รายการประกันภัย</a>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link href={`/`} >
-                                        <a>คำสั่งซื้อ</a>
+                                        <a className={""}>คำสั่งซื้อ</a>
                                     </Link>
                                 </li>
                             </ul>
@@ -37,8 +41,8 @@ function Sidebar() {
                             <span>จัดการระบบหลังบ้าน</span>
                         </li>
 
-                        <li>
-                            <Link href={`/system/usersSystem`} >
+                        <li className={activeHref(`/system/usersSystem/`)}>
+                            <Link href={`/system/usersSystem/`} >
                                 <a><i className="la la-user" /> <span>จัดการผู้ใช้ระบบ</span></a>
                             </Link>
                         </li>
