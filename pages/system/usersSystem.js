@@ -58,7 +58,7 @@ const usersSystem = () => {
             setLoading(true)
             const { data } = await API.get(`/system/getAllUsers?limit=${_limit}&pasge=${_page}&search=${_search}`)
             const { result, itemcount } = data.items
-            console.log('data :>> ', data);
+            // console.log('data :>> ', data);
             setTotal(itemcount)
             setListUsers(result)
             setLoading(false)
@@ -125,8 +125,8 @@ const usersSystem = () => {
                     <div className="dropdown dropdown-action">
                         <button href="#" className="btn action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i className="fa fa-ellipsis-v" /></button>
                         <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday"><i className="fa fa-eye m-r-5" /> ดูข้อมูล</a>
-                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday"><i className="fa fa-pencil m-r-5" /> แก้ไขข้มูล</a>
+                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday" onClick={() => addEditViewModal("view", item.id)}><i className="fa fa-eye m-r-5" /> ดูข้อมูล</a>
+                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday" onClick={() => addEditViewModal("edit", item.id)}><i className="fa fa-pencil m-r-5" /> แก้ไขข้มูล</a>
                             <a className="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday"><i className="fa fa-trash-o m-r-5" /> ลบข้อมูล</a>
                         </div>
                     </div>
@@ -151,17 +151,12 @@ const usersSystem = () => {
             await setMode(_mode)
             if (id) {
                 const { data } = await API.get(`/system/getByid/${id}`)
-                console.log('data :>> ', data);
-                // if (data.data.length > 0) {
-                //     const _model = data.data[data.data.length - 1]
-                //     // console.log('_model :>> ', _model);
-                //     _model.password = null
-                //     form.setFieldsValue(_model)
-                //     setIsIdEdit(_model.id)
-                // } else {
-                //     err = true
-                //     message.error('ไม่พบข้อมูล !!');
-                // }
+                const _model = data.items;
+                console.clear()
+                console.log('_model :>> ', _model);
+                form.setFieldsValue(_model)
+                setIsIdEdit(_model.id)
+
             }
             if (!err) await setIsModalVisible(true);
         } catch (error) {
@@ -349,7 +344,7 @@ const usersSystem = () => {
                     onFinishFailed={onFinishFailed}
                 >
                     <Form.Item
-                        name="user_name"
+                        name="username"
                         type="text"
                         label=" ชื่อผู้ใช้"
                         rules={[
@@ -366,7 +361,7 @@ const usersSystem = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="e_mail"
+                        name="email"
                         label="อีเมล์"
                         rules={[{ type: "email", required: true, message: "กรุณาใส่อีเมล์ของคุณ" },
                         {
@@ -377,7 +372,7 @@ const usersSystem = () => {
                         <Input disabled={mode != "add"} />
                     </Form.Item>
 
-                    {mode != "view" ? (
+                    {mode == "add" ? (
                         <>
                             <Form.Item
                                 name="password"
@@ -388,8 +383,6 @@ const usersSystem = () => {
                                     {
                                         required: ((mode == "add") || (password || c_password)),
                                         message: "กรุณาใส่รหัสผ่านของคุณ"
-                                        // pattern: ('(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!#^~%*?&,.<>"\'\\;:\{\\\}\\\[\\\]\\\|\\\+\\\-\\\=\\\_\\\)\\\(\\\)\\\`\\\/\\\\\\]])[A-Za-z0-9\d$@].{7,}'),
-                                        // message: "Please enter a password of more than 8 characters. It must contain at least 1 capital letter and letters!",
                                     },
                                 ]}
                             >
@@ -405,8 +398,6 @@ const usersSystem = () => {
                                     {
                                         required: ((mode == "add") || (password || c_password)),
                                         message: "กรุณายืนยันรหัสผ่าน"
-                                        // pattern: ('(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!#^~%*?&,.<>"\'\\;:\{\\\}\\\[\\\]\\\|\\\+\\\-\\\=\\\_\\\)\\\(\\\)\\\`\\\/\\\\\\]])[A-Za-z0-9\d$@].{7,}'),
-                                        // message: "Please enter a password of more than 8 characters. It must contain at least 1 capital letter and letters!",
                                     },
                                 ]}
                             >
@@ -415,7 +406,7 @@ const usersSystem = () => {
                         </>
                     ) : null}
 
-                    <Form.Item name="group_id" label="กลุ่มผู้ใช้งาน" >
+                    <Form.Item name="role_id" label="กลุ่มผู้ใช้งาน" >
                         <Select
                             showSearch
                             placeholder="เลือกข้อมูล"
@@ -435,11 +426,29 @@ const usersSystem = () => {
 
                     {mode != "add" ? (
                         <>
-                            <Form.Item name="first_name" label="ชื่อจริง">
+                            <Form.Item name="role_id" label="คำนำหน้า" >
+                                <Select
+                                    showSearch
+                                    placeholder="เลือกข้อมูล"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                    disabled={mode == "view"}
+                                >
+                                    {userGroupData.map((e, index) => (
+                                        <Select.Option value={e.id} key={index}>
+                                            {e.group_name}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+
+                            <Form.Item name="first_name_th" label="ชื่อจริง">
                                 <Input disabled={mode == "view"} />
                             </Form.Item>
 
-                            <Form.Item name="last_name" label="นามสกุล">
+                            <Form.Item name="last_name_th" label="นามสกุล">
                                 <Input disabled={mode == "view"} />
                             </Form.Item>
 
@@ -456,9 +465,7 @@ const usersSystem = () => {
                                 <Input disabled={mode == "view"} />
                             </Form.Item>
 
-                            <Form.Item name="note" label="Note" >
-                                <Input.TextArea rows={5} disabled={mode == "view"} />
-                            </Form.Item>
+                          
                         </>
                     ) : null}
 

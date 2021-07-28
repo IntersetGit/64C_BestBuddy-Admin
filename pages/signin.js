@@ -21,7 +21,8 @@ const Signin = () => {
             (() => {
                 const cookies = new Cookies();
                 const token = cookies.get('token');
-                if (token) route.push("/")
+                /* จ้องเช็คว่า Token หมด อายุยัง */
+                // if (token) route.push("/")
             })();
         }
 
@@ -33,7 +34,7 @@ const Signin = () => {
     const login = async () => {
         try {
             const { data } = await Api.post("/auth/login", modelLogin)
-            console.log('data :>> ', data.items);
+            // console.log('data :>> ', data.items);
             const { token, refreshToken } = data.items
             dispatch(setToken(token, refreshToken))
             route.push("/")
