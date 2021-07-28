@@ -4,9 +4,11 @@ import Layout from '../../components/_App/Layout'
 import { Table, Modal, Input, Select, message, Button, Tooltip, Popconfirm, Form } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import API from '../../util/Api'
+import { useSelector } from 'react-redux';
 const { Search } = Input;
 
 const usersSystem = () => {
+    const { roles , name_title } = useSelector(({ master }) => master);
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -15,7 +17,6 @@ const usersSystem = () => {
     const [mode, setMode] = useState("add") // add = เพิ่ม edit = แก้ไข view = ดูข้อมูล
 
     const [listUsers, setListUsers] = useState([])
-    const [userGroupData, setUserGroupData] = useState([]); // userGroup
 
     const isComponentMounted = useRef(true)
 
@@ -416,9 +417,9 @@ const usersSystem = () => {
                             }
                             disabled={mode == "view"}
                         >
-                            {userGroupData.map((e, index) => (
+                            {roles.map((e, index) => (
                                 <Select.Option value={e.id} key={index}>
-                                    {e.group_name}
+                                    {e.roles_name}
                                 </Select.Option>
                             ))}
                         </Select>
@@ -426,7 +427,7 @@ const usersSystem = () => {
 
                     {mode != "add" ? (
                         <>
-                            <Form.Item name="role_id" label="คำนำหน้า" >
+                            <Form.Item name="mas_title_name_id" label="คำนำหน้า" >
                                 <Select
                                     showSearch
                                     placeholder="เลือกข้อมูล"
@@ -436,9 +437,9 @@ const usersSystem = () => {
                                     }
                                     disabled={mode == "view"}
                                 >
-                                    {userGroupData.map((e, index) => (
+                                    {name_title.map((e, index) => (
                                         <Select.Option value={e.id} key={index}>
-                                            {e.group_name}
+                                            {e.title_name}
                                         </Select.Option>
                                     ))}
                                 </Select>
