@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const { Search } = Input;
 
 const usersSystem = () => {
-    const { roles , name_title } = useSelector(({ master }) => master);
+    const { roles, name_title } = useSelector(({ master }) => master);
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -147,17 +147,17 @@ const usersSystem = () => {
     const [form] = Form.useForm();
 
     const addEditViewModal = async (_mode, id) => {
+        console.clear()
+        // console.log('id :>> ', id);
         try {
             let err = false
             await setMode(_mode)
             if (id) {
                 const { data } = await API.get(`/system/getByid/${id}`)
                 const _model = data.items;
-                console.clear()
-                console.log('_model :>> ', _model);
+                // console.log('_model :>> ', _model);
                 form.setFieldsValue(_model)
-                setIsIdEdit(_model.id)
-
+                setIsIdEdit(id)
             }
             if (!err) await setIsModalVisible(true);
         } catch (error) {
@@ -180,85 +180,36 @@ const usersSystem = () => {
 
     const onFinish = async (value) => {
         try {
-            // console.log('value :>> ', value);
+            console.log('value :>> ', value);
+
+            const model = {
+                username: value.username ?? null,
+                email: value.email ?? null,
+                roles_id: value.role_id ?? null,
+                first_name_th: value.first_name_th ?? null,
+                last_name_th: value.last_name_th ?? null,
+                mas_title_name_id: value.mas_title_name_id ?? null,
+                tel: value.tel ?? null,
+                id_card: value.id_card ?? null,
+            }
 
             if (mode == "add") {
-
-                const modelAdd = {
-                    user_name: value.user_name,
-                    e_mail: value.e_mail,
-                    password: value.password,
-                    c_password: value.c_password,
-                    group_id: value.group_id,
-                    status: 1
-                }
-
-                if (modelAdd.password != modelAdd.c_password) {
+                model.password = value.password ?? null
+                model.c_password = value.c_password ?? null
+                if (model.password != model.c_password) {
                     message.warning('รหัสผ่านไม่ตรงกัน !!');
-                    form.setFieldsValue({ ...modelAdd, password: null, c_password: null });
-                } else {
-                    const { data } = await API.post(`/user/add`, modelAdd)
-                    if (data.status == "failed") {
-                        checkError(data, modelAdd)
-                    } else {
-                        message.success("บันทึกข้อมูลสำเร็จ");
-                        callback()
-                    }
-
+                    form.setFieldsValue({ ...model, password: null, c_password: null });
                 }
-            } else if (mode == "edit") {
-                let err = false
+            } else model.id = idEdit
 
-                const modelEdit = {
-                    e_mail: value.e_mail,
-                    password: value.password,
-                    c_password: value.c_password,
-                    group_id: value.group_id,
-                    first_name: value.first_name, // edit
-                    last_name: value.last_name, // edit
-                    mobile_phone_no: value.mobile_phone_no, // edit
-                    id_card_no: value.id_card_no, // edit
-                    note: value.note, // edit
-                }
+            await API.post(`/system/mangeUsers`, model)
+            message.success("บันทึกข้อมูลสำเร็จ");
+            callback()
 
-                if (value.password || value.c_password) {
-                    if (value.password != value.c_password) {
-                        message.warning('รหัสผ่านไม่ตรงกัน !!');
-                        form.setFieldsValue({ ...modelEdit, password: null, c_password: null });
-                        err = true
-                    }
-                }
 
-                if (!err) {
-                    const { data } = await API.post(`/user/update/${idEdit}`, modelEdit)
-                    // console.log('data :>> ', data);
-                    if (data.status == "failed") {
-                        checkError(data, modelEdit)
-                    } else {
-                        message.success("บันทึกข้อมูลสำเร็จ");
-                        callback()
-                    }
-                    callback()
-                }
-
-            }
             function callback() {
                 handleCancel()
-                userDataList({ _page: page, _search: search, _type: type });
-            }
-
-            function checkError(data, model) {
-                let erroe_message = "ไม่สามารถบันทึกข้อมูลมูลได้ มีบางอย่างผิดพลาด"
-                if (data.data == "same name") {
-                    erroe_message = "ไม่สามารถบันทึกข้อมูลมูลได้ ชื่อผู้ใช้ซ้ำ"
-                    model.user_name = null
-                } else if (data.data == "same e-mail") {
-                    erroe_message = "ไม่สามารถบันทึกข้อมูลมูลได้ อีเมล์ซ้ำ"
-                    model.e_mail = null
-                }
-
-                message.warning(erroe_message);
-                form.setFieldsValue({ ...model, password: null, c_password: null });
+                usersDataList({ _page: page, _search: search });
             }
         } catch (error) {
             message.error('มีบางอย่างผิดพลาด ไม่สามารถบันทึกได้ !!');
@@ -416,6 +367,12 @@ const usersSystem = () => {
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                             disabled={mode == "view"}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "กรุณาเลือกข้อมูล"
+                                },
+                            ]}
                         >
                             {roles.map((e, index) => (
                                 <Select.Option value={e.id} key={index}>
@@ -425,50 +382,59 @@ const usersSystem = () => {
                         </Select>
                     </Form.Item>
 
-                    {mode != "add" ? (
-                        <>
-                            <Form.Item name="mas_title_name_id" label="คำนำหน้า" >
-                                <Select
-                                    showSearch
-                                    placeholder="เลือกข้อมูล"
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) =>
-                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                    }
-                                    disabled={mode == "view"}
-                                >
-                                    {name_title.map((e, index) => (
-                                        <Select.Option value={e.id} key={index}>
-                                            {e.title_name}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
+                    <Form.Item name="mas_title_name_id" label="คำนำหน้า" rules={[
+                        {
+                            required: true,
+                            message: "กรุณาเลือกคำนำหน้า"
+                        },
+                    ]}>
+                        <Select
+                            showSearch
+                            placeholder="เลือกข้อมูล"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                            disabled={mode == "view"}
+                        >
+                            {name_title.map((e, index) => (
+                                <Select.Option value={e.id} key={index}>
+                                    {e.title_name}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
 
-                            <Form.Item name="first_name_th" label="ชื่อจริง">
-                                <Input disabled={mode == "view"} />
-                            </Form.Item>
+                    <Form.Item name="first_name_th" label="ชื่อจริง" rules={[
+                        {
+                            required: true,
+                            message: "กรุณากรอกข้อมูล"
+                        },
+                    ]}>
+                        <Input disabled={mode == "view"} />
+                    </Form.Item>
 
-                            <Form.Item name="last_name_th" label="นามสกุล">
-                                <Input disabled={mode == "view"} />
-                            </Form.Item>
+                    <Form.Item name="last_name_th" label="นามสกุล" rules={[
+                        {
+                            required: true,
+                            message: "กรุณากรอกข้อมูล"
+                        },
+                    ]}>
+                        <Input disabled={mode == "view"} />
+                    </Form.Item>
 
-                            <Form.Item name="mobile_phone_no" label="เบอร์ติดต่อ">
-                                <Input disabled={mode == "view"} />
-                            </Form.Item>
+                    <Form.Item name="tel" label="เบอร์ติดต่อ">
+                        <Input disabled={mode == "view"} />
+                    </Form.Item>
 
-                            <Form.Item name="id_card_no" label="เลขบัตรประชาชน" rules={[
-                                {
-                                    pattern: ('[0-9]{13}'),
-                                    message: "Please fill in your ID card number to complete 13 digits!",
-                                },
-                            ]}>
-                                <Input disabled={mode == "view"} />
-                            </Form.Item>
-
-                          
-                        </>
-                    ) : null}
+                    <Form.Item name="id_card" label="เลขบัตรประชาชน" rules={[
+                        {
+                            pattern: ('[0-9]{13}'),
+                            message: "Please fill in your ID card number to complete 13 digits!",
+                        },
+                    ]}>
+                        <Input disabled={mode == "view"} />
+                    </Form.Item>
 
                 </Form>
             </Modal>
