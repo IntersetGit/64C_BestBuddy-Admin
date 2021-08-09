@@ -31,6 +31,8 @@ const usersSystem = () => {
         first_name_th: null, // add
         last_name_th: null, // add
         roles_id: null, // add
+        tel: null, // add
+        id_card: null, // add
     }
 
     useEffect(() => {
@@ -128,7 +130,7 @@ const usersSystem = () => {
                         <div className="dropdown-menu dropdown-menu-right">
                             <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday" onClick={() => addEditViewModal("view", item.id)}><i className="fa fa-eye m-r-5" /> ดูข้อมูล</a>
                             <a className="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday" onClick={() => addEditViewModal("edit", item.id)}><i className="fa fa-pencil m-r-5" /> แก้ไขข้มูล</a>
-                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday"><i className="fa fa-trash-o m-r-5" /> ลบข้อมูล</a>
+                            <a className="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday" onClick={() => delUser(item.id)}><i className="fa fa-trash-o m-r-5" /> ลบข้อมูล</a>
                         </div>
                     </div>
 
@@ -136,7 +138,16 @@ const usersSystem = () => {
             )
         }
     ];
+    // delUser/:id
 
+    const delUser = (id) => {
+        try {
+            await API.get(`/system/delUser/${id}`)
+            handleCancel()
+        } catch (error) {
+            message.error('มีบางอย่างผิดพลาด !!');
+        }
+    }
     /* Modal */
 
     const [password, setPassword] = useState(null)
