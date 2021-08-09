@@ -140,10 +140,10 @@ const usersSystem = () => {
     ];
     // delUser/:id
 
-    const delUser = (id) => {
+    const delUser = async (id) => {
         try {
             await API.get(`/system/delUser/${id}`)
-            handleCancel()
+            usersDataList({ _page: page, _search: search });
         } catch (error) {
             message.error('มีบางอย่างผิดพลาด !!');
         }
