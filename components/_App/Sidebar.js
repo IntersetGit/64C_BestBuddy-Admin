@@ -58,6 +58,11 @@ function Sidebar() {
                                 <a><i className="la la-cog" /> <span>จัดการช่วงอายุประกันภัย</span></a>
                             </Link>
                         </li>
+                        <li className={activeHref(`/system/produc/`)}>
+                            <Link href={`/system/produc/`} >
+                                <a><i className="la la-cog" /> <span>จัดการคำสั่งซื้อ</span></a>
+                            </Link>
+                        </li>
 
 
                         {/* <li className="submenu">
