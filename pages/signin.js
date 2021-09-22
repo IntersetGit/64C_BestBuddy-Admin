@@ -22,7 +22,7 @@ const Signin = () => {
                 const cookies = new Cookies();
                 const token = cookies.get('token');
                 /* จ้องเช็คว่า Token หมด อายุยัง */
-                // if (token) route.push("/")
+                if (token) route.push("/")
             })();
         }
 
